@@ -22,15 +22,21 @@ public class Polynomial {
 
     // Constructor a partir d'un string
     public Polynomial(String s) {
-        s = s.replaceAll(" ","");
+        StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i <s.length() ; i++) {
-            
+
+        for (int i = 0; i < s.length() ; i++) {
+            if((s.charAt(i) == 'x') && ((i-1 == -1) || ((s.charAt(i-1) < 48) && (s.charAt(i-1) > 57)))){
+                 sb.append('1');
+            }else {
+                sb.append(s.charAt(i));
+            }
         }
+        s = sb.toString();
+        s = s.replaceAll(" ","");
+        s = s.replaceAll("x","");
 
         System.out.println(s);
-
-
 
     }
 
