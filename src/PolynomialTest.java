@@ -31,6 +31,9 @@ public class PolynomialTest {
     public void constructs2() {
         Polynomial p;
 
+        p = new Polynomial("3x + 81");
+        assertEquals("3x + 81", p.toString());
+
         p = new Polynomial("3x + 5 + 2x^2");
         assertEquals("2x^2 + 3x + 5", p.toString());
 
