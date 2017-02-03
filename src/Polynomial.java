@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Polynomial {
 
-    private float[] polynomial = {0};
+    private int [] polynomial = {0};
 
     // Constructor per defecte. Genera un polinomi zero
     public Polynomial() {
@@ -11,11 +11,11 @@ public class Polynomial {
 
     // Constructor a partir dels coeficients del polinomi en forma d'array
     public Polynomial(float[] cfs) {
-        float[] polynomial = new float[cfs.length];
+        int[] polynomial = new int[cfs.length];
 
-        for (int i = cfs.length -1,x = 0; i >= 0 ; i--,x++) {
+        for (int i = cfs.length - 1, x = 0; i >= 0; i--, x++) {
 
-            polynomial[i] = cfs[x];
+            polynomial[i] =  (int) cfs[x];
         }
         this.polynomial = polynomial;
     }
@@ -23,29 +23,21 @@ public class Polynomial {
     // Constructor a partir d'un string
     public Polynomial(String s) {
 
-        s = s.replaceAll(" ","");
-        String[] numero = new String[s.length()];
-        String[] posicion = new String[s.length()];
-        int p = 0;
+        StringBuilder sb = new StringBuilder();
+        s = s.replaceAll(" ", "");
 
-        for (int i = 0; i < s.length() ; i++) {
-            if (s.charAt(i) =='x'){
-                if ((i == s.length()-1) && ((s.charAt(i-1) < 48) && (s.charAt(i-1) > 57))){
-                       posicion[p] = "1";
-                       if (s.charAt(i-1) == '-'){
-                           numero[p] = "-1";
-                       }else{
-                           numero[p] = "1";
-                       }
-
-                }
-
+        for (int i = 0; i < s.length(); i++) {
+            if((i == s.length()-1) || (s.charAt(i+1) == '+') || (s.charAt(i+1) == '-')){
+                sb.append(s.charAt(i));
+                monomio(sb.toString());
+                sb.setLength(0);
+            }else{
+                sb.append(s.charAt(i));
             }
-
         }
 
-
     }
+
 
     // Suma el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial add(Polynomial p) {
@@ -66,6 +58,57 @@ public class Polynomial {
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
         return null;
+    }
+
+    void monomio(String m){
+        int[] mon = new int[2];
+        StringBuilder sb = new StringBuilder();
+
+        if (m.contains("x")){
+            if (m.contains("^")){
+                for (int i = 0; i < m.length() ; i++) {
+                    if (m.charAt(i) == '^'){
+                        sb.append(' ');
+
+                    }else{
+                        sb.append(m.charAt(i));
+
+                    }
+
+                    m = nox(sb.toString());
+
+                }
+
+            }
+        }else{
+            mon[0] = Integer.parseInt(m);
+            mon[1] = 0;
+        }
+        System.out.println(m);
+        System.out.println(Arrays.toString(mon));
+
+    }
+
+    private String nox(String m){
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < m.length(); i++) {
+            if (m.charAt(i) == 'x'){
+
+                if ((i == 0) || (m.charAt(i-1) == '+') || (m.charAt(i-1) == '-')){
+                    sb.append("1");
+
+                }else{
+                    sb.append("");
+                }
+
+            }else{
+                sb.append(m.charAt(i));
+            }
+        }
+        m = sb.toString();
+
+        return m;
     }
 
     // Torna "true" si els polinomis són iguals. Això és un override d'un mètode de la classe Object
