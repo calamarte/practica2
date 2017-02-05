@@ -23,7 +23,7 @@ public class Polynomial {
 
     // Constructor a partir d'un string
     public Polynomial(String s) {
-        int[] polynomial = new int[s.length()];
+        int[] polynomial = new int[999];
         this.polynomial = polynomial;
         StringBuilder sb = new StringBuilder();
 
