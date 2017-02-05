@@ -39,6 +39,18 @@ public class Polynomial {
                 sb.append(s.charAt(i));
             }
         }
+        for (int i = this.polynomial.length-1; i >= 0 ; i--) {
+            if (this.polynomial[i] != 0) {
+                int[] poly = new int[i + 1];
+
+                for (int j = 0; j < poly.length ; j++) {
+                    poly[j] = this.polynomial[j];
+                }
+                this.polynomial = poly;
+                System.out.println(Arrays.toString(this.polynomial));
+                break;
+            }
+        }
 
     }
 
@@ -105,7 +117,6 @@ public class Polynomial {
         }
 
         this.polynomial[mon[1]] = mon[0];
-        System.out.println(Arrays.toString(this.polynomial));
 
     }
 

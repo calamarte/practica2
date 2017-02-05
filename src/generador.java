@@ -4,7 +4,7 @@
 public class generador {
     public static void main(String[] args) {
 
-        String p = " x - 3x^2 + 3";
+        String p = "x^3 + 5x - 8";
 
         Polynomial po = new Polynomial(p);
 
