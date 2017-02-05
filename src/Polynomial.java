@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Vector;
 
 public class Polynomial {
 
@@ -22,8 +23,10 @@ public class Polynomial {
 
     // Constructor a partir d'un string
     public Polynomial(String s) {
-
+        int[] polynomial = new int[s.length()];
+        this.polynomial = polynomial;
         StringBuilder sb = new StringBuilder();
+
         s = s.replaceAll(" ", "");
 
         for (int i = 0; i < s.length(); i++) {
@@ -31,6 +34,7 @@ public class Polynomial {
                 sb.append(s.charAt(i));
                 monomio(sb.toString());
                 sb.setLength(0);
+
             }else{
                 sb.append(s.charAt(i));
             }
@@ -74,41 +78,76 @@ public class Polynomial {
                         sb.append(m.charAt(i));
 
                     }
-
-                    m = nox(sb.toString());
-
                 }
+                mon = noX(sb.toString());
 
+            }else{
+                for (int i = 0; i < m.length() ; i++) {
+                    if (m.charAt(i) == 'x'){
+                        if ((i == 0) || (m.charAt(i-1) == '+') || (m.charAt(i-1) == '-')){
+                            sb.append('1');
+                        }
+
+                    }else{
+                        sb.append(m.charAt(i));
+                    }
+                }
+                m = sb.toString();
+
+                mon[0] = Integer.parseInt(m);
+                mon[1] = 1;
             }
+
         }else{
+
             mon[0] = Integer.parseInt(m);
             mon[1] = 0;
         }
-        System.out.println(m);
-        System.out.println(Arrays.toString(mon));
+
+        this.polynomial[mon[1]] = mon[0];
+        System.out.println(Arrays.toString(this.polynomial));
 
     }
 
-    private String nox(String m){
+    private int[] noX(String m){
+        int[] mon = new int[2];
         StringBuilder sb = new StringBuilder();
+
 
         for (int i = 0; i < m.length(); i++) {
             if (m.charAt(i) == 'x'){
 
+                //-x^,x^,+x^
                 if ((i == 0) || (m.charAt(i-1) == '+') || (m.charAt(i-1) == '-')){
                     sb.append("1");
 
                 }else{
-                    sb.append("");
+
                 }
 
             }else{
                 sb.append(m.charAt(i));
+
             }
         }
         m = sb.toString();
+        sb.setLength(0);
 
-        return m;
+        for (int i = 0; i < m.length() ; i++) {
+            sb.append(m.charAt(i));
+
+            if ((i != m.length()-1) && (m.charAt(i+1) == ' ')){
+                sb.toString();
+                mon[0] = Integer.parseInt(sb.toString());
+                sb.setLength(0);
+
+            }
+            if(i == m.length()-1){
+                mon[1] = Integer.parseInt(sb.toString().replaceAll(" ",""));
+            }
+        }
+
+        return mon;
     }
 
     // Torna "true" si els polinomis són iguals. Això és un override d'un mètode de la classe Object
