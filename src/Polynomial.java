@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Vector;
 
 public class Polynomial {
 
@@ -23,12 +22,13 @@ public class Polynomial {
 
     // Constructor a partir d'un string
     public Polynomial(String s) {
-        int[] polynomial = new int[999];
+        int[] polynomial = new int[1000];
         this.polynomial = polynomial;
         StringBuilder sb = new StringBuilder();
 
         s = s.replaceAll(" ", "");
 
+        // Separa el polinomio en monomios y se envian a monomio
         for (int i = 0; i < s.length(); i++) {
             if((i == s.length()-1) || (s.charAt(i+1) == '+') || (s.charAt(i+1) == '-')){
                 sb.append(s.charAt(i));
@@ -39,6 +39,8 @@ public class Polynomial {
                 sb.append(s.charAt(i));
             }
         }
+
+        //Crea un array ajustado a la información que se contiene
         for (int i = this.polynomial.length-1; i >= 0 ; i--) {
             if (this.polynomial[i] != 0) {
                 int[] poly = new int[i + 1];
@@ -57,6 +59,8 @@ public class Polynomial {
 
     // Suma el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial add(Polynomial p) {
+
+
         return null;
     }
 
@@ -76,10 +80,12 @@ public class Polynomial {
         return null;
     }
 
-    void monomio(String m){
+    //Clasifica los monomios
+    private void monomio(String m){
         int[] mon = new int[2];
         StringBuilder sb = new StringBuilder();
 
+        //Se filtran los monomios según sus características y se guarda su exponente y su valor en un array
         if (m.contains("x")){
             if (m.contains("^")){
                 for (int i = 0; i < m.length() ; i++) {
@@ -116,15 +122,24 @@ public class Polynomial {
             mon[1] = 0;
         }
 
-        this.polynomial[mon[1]] = mon[0];
+        //La información del monomio se pasa al array principal donde estará el polinomio completo
+        //Si es necesario se suman los polinomios para que no se pisen
+        if (this.polynomial[mon[1]] != 0){
+            this.polynomial[mon[1]] += mon[0];
+
+        }else{
+            this.polynomial[mon[1]] = mon[0];
+
+        }
 
     }
 
+    //Extrae la información de unos monomios concretos
     private int[] noX(String m){
         int[] mon = new int[2];
         StringBuilder sb = new StringBuilder();
 
-
+        //Se editan los monomios
         for (int i = 0; i < m.length(); i++) {
             if (m.charAt(i) == 'x'){
 
@@ -144,6 +159,7 @@ public class Polynomial {
         m = sb.toString();
         sb.setLength(0);
 
+        //Divide el exponente del valor
         for (int i = 0; i < m.length() ; i++) {
             sb.append(m.charAt(i));
 
