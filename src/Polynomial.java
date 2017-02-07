@@ -215,22 +215,44 @@ public class Polynomial {
         return "";
     }
 
-    private String monomyalAbsoluteToString (int position){
+     String monomyalAbsoluteToString (int position){
         StringBuilder sb = new StringBuilder();
         int numero = (this.polynomial[position]);
 
         if (numero < 0){numero *= -1;}
 
+        if (numero == 0){sb.append(0);}
+
+        if (numero == 1){
+            switch (position) {
+                case 1: {
+                    sb.append("x");
+                    break;
+                }
+                case 0: {
+                    sb.append(numero);
+                    break;
+                }
+                default: {
+                    sb.append("x^" + position);
+                    break;
+                }
+            }
+        }
+
         if (numero > 1) {
             switch (position) {
                 case 1: {
                     sb.append(numero + "x");
+                    break;
                 }
                 case 0: {
                     sb.append(numero);
+                    break;
                 }
                 default: {
                     sb.append(numero + "x^" + position);
+                    break;
                 }
             }
         }
