@@ -61,7 +61,6 @@ public class Polynomial {
                     poly[j] = this.polynomial[j];
                 }
                 this.polynomial = poly;
-                System.out.println(Arrays.toString(this.polynomial));
                 break;
             }
         }
@@ -192,20 +191,24 @@ public class Polynomial {
     // Torna "true" si els polinomis són iguals. Això és un override d'un mètode de la classe Object
     @Override
     public boolean equals(Object o) {
-        if(o == this.polynomial){
-            return true;
-        }else{
-            return false;
-        }
+        Polynomial polynomial = (Polynomial) o;
+        return polynomial.toString().equals(this.toString());
     }
 
     // Torna la representació en forma de String del polinomi. Override d'un mètode de la classe Object
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if ((polynomial.length == 0) && (polynomial[0] == 0)){
-            return "0";
+        boolean b = true;
+
+        for (int i = 0; i < this.polynomial.length ; i++) {
+
+            if (polynomial[i] != 0){
+                b = false;
+            }
         }
+
+        if (b)return "0";
 
         for (int i = this.polynomial.length -1; i >= 0 ; i--) {
 
