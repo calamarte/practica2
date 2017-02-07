@@ -203,6 +203,9 @@ public class Polynomial {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        if ((polynomial.length == 0) && (polynomial[0] == 0)){
+            return "0";
+        }
 
         for (int i = this.polynomial.length -1; i >= 0 ; i--) {
 
@@ -215,8 +218,8 @@ public class Polynomial {
 
             }
 
-            if (i != 0) {
-                sb.append(monomyalAbsoluteToString(i)+ sign(polynomial[i-1]));
+            if (i !=  this.polynomial.length-1) {
+                sb.append(sign(polynomial[i])+ monomyalAbsoluteToString(i));
             }else{
                 sb.append(monomyalAbsoluteToString(i));
             }
