@@ -10,6 +10,18 @@ public class Polynomial {
     }
 
     // Constructor a partir dels coeficients del polinomi en forma d'array
+    public Polynomial(int[] cfs){
+        int[] polynomial = new int[cfs.length];
+
+        for (int i = cfs.length - 1, x = 0; i >= 0; i--, x++) {
+
+            polynomial[i] = cfs[x];
+        }
+        this.polynomial = polynomial;
+
+    }
+
+    // Constructor a partir dels coeficients del polinomi en forma d'array
     public Polynomial(float[] cfs) {
         int[] polynomial = new int[cfs.length];
 
@@ -28,11 +40,11 @@ public class Polynomial {
 
         s = s.replaceAll(" ", "");
 
-        // Separa el polinomio en monomios y se envian a monomio
+        // Separa el polinomio en monomios y se envian a monomyal
         for (int i = 0; i < s.length(); i++) {
             if((i == s.length()-1) || (s.charAt(i+1) == '+') || (s.charAt(i+1) == '-')){
                 sb.append(s.charAt(i));
-                monomio(sb.toString());
+                monomyal(sb.toString());
                 sb.setLength(0);
 
             }else{
@@ -81,7 +93,7 @@ public class Polynomial {
     }
 
     //Clasifica los monomios
-    private void monomio(String m){
+    private void monomyal(String m){
         int[] mon = new int[2];
         StringBuilder sb = new StringBuilder();
 
@@ -122,7 +134,7 @@ public class Polynomial {
             mon[1] = 0;
         }
 
-        //La información del monomio se pasa al array principal donde estará el polinomio completo
+        //La información del monomyal se pasa al array principal donde estará el polinomio completo
         //Si es necesario se suman los polinomios para que no se pisen
         if (this.polynomial[mon[1]] != 0){
             this.polynomial[mon[1]] += mon[0];
@@ -186,6 +198,44 @@ public class Polynomial {
     // Torna la representació en forma de String del polinomi. Override d'un mètode de la classe Object
     @Override
     public String toString() {
+
+
+
+        for (int i = this.polynomial.length -1; i >= 0 ; i--) {
+            StringBuilder sb = new StringBuilder();
+
+            if (i == this.polynomial.length -1){
+
+            }
+
+            //if
+                //monomyal...
+        }
+
         return "";
+    }
+
+    private String monomyalAbsoluteToString (int position){
+        StringBuilder sb = new StringBuilder();
+        int numero = (this.polynomial[position]);
+
+        if (numero < 0){numero *= -1;}
+
+        if (numero > 1) {
+            switch (position) {
+                case 1: {
+                    sb.append(numero + "x");
+                }
+                case 0: {
+                    sb.append(numero);
+                }
+                default: {
+                    sb.append(numero + "x^" + position);
+                }
+            }
+        }
+
+
+        return sb.toString();
     }
 }
