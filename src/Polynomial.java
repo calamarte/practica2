@@ -192,30 +192,51 @@ public class Polynomial {
     // Torna "true" si els polinomis són iguals. Això és un override d'un mètode de la classe Object
     @Override
     public boolean equals(Object o) {
-        return false;
+        if(o == this.polynomial){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     // Torna la representació en forma de String del polinomi. Override d'un mètode de la classe Object
     @Override
     public String toString() {
-
-
+        StringBuilder sb = new StringBuilder();
 
         for (int i = this.polynomial.length -1; i >= 0 ; i--) {
-            StringBuilder sb = new StringBuilder();
 
-            if (i == this.polynomial.length -1){
+            if(polynomial[i] == 0){
+                continue;
+            }
+
+            if ((i == this.polynomial.length -1) && (polynomial[i] < 0)){
+                sb.append("-");
 
             }
 
-            //if
-                //monomyal...
+            if (i != 0) {
+                sb.append(monomyalAbsoluteToString(i)+ sign(polynomial[i-1]));
+            }else{
+                sb.append(monomyalAbsoluteToString(i));
+            }
+
         }
 
-        return "";
+        return sb.toString();
     }
 
-     String monomyalAbsoluteToString (int position){
+    private static String sign(int numero){
+        String s;
+        if (numero < 0){
+             s = " - ";
+        }else{
+            s = " + ";
+        }
+        return s;
+    }
+
+    private String monomyalAbsoluteToString (int position){
         StringBuilder sb = new StringBuilder();
         int numero = (this.polynomial[position]);
 
