@@ -2,32 +2,22 @@ import java.util.Arrays;
 
 public class Polynomial {
 
-    private int [] polynomial = {0};
+    private float [] polynomial = {0};
 
     // Constructor per defecte. Genera un polinomi zero
     public Polynomial() {
 
     }
 
-    // Constructor a partir dels coeficients del polinomi en forma d'array
-    public Polynomial(int[] cfs){
-        int[] polynomial = new int[cfs.length];
-
-        for (int i = cfs.length - 1, x = 0; i >= 0; i--, x++) {
-
-            polynomial[i] = cfs[x];
-        }
-        this.polynomial = polynomial;
-
-    }
 
     // Constructor a partir dels coeficients del polinomi en forma d'array
     public Polynomial(float[] cfs) {
-        int[] polynomial = new int[cfs.length];
+
+        float[] polynomial = new float[cfs.length];
 
         for (int i = cfs.length - 1, x = 0; i >= 0; i--, x++) {
 
-            polynomial[i] =  (int) cfs[x];
+            polynomial[i] =  cfs[x];
         }
         this.polynomial = polynomial;
     }
@@ -53,7 +43,7 @@ public class Polynomial {
         //Crea un array ajustado a la información que se contiene
         for (int i = this.polynomial.length-1; i >= 0 ; i--) {
             if (this.polynomial[i] != 0) {
-                int[] poly = new int[i + 1];
+                float[] poly = new float[i + 1];
 
                 for (int j = 0; j < poly.length; j++) {
                     poly[j] = this.polynomial[j];
@@ -70,8 +60,36 @@ public class Polynomial {
     // Suma el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial add(Polynomial p) {
 
+        float[] p1 = this.polynomial;
+        float[] p2 = p.polynomial;
 
-        return null;
+         if (p1.length > p2.length){
+             p2 = equalsLength(p1,p2);
+         }else{
+             p1 = equalsLength(p2,p1);
+         }
+
+         float[] result = new float[p1.length];
+
+        for (int i = 0, x = result.length-1; i < result.length; i++,x--) {
+
+            result[x] = p1[i] + p2[i];
+        }
+
+        Polynomial poly = new Polynomial(result);
+
+        return  poly;
+    }
+
+    private  float[] equalsLength(float[] mayor,float[] menor){
+
+        float[] result = new float[mayor.length];
+
+        for (int i = 0; i < menor.length ; i++) {
+
+            result[i] = menor[i];
+        }
+        return result;
     }
 
     // Multiplica el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
@@ -134,7 +152,7 @@ public class Polynomial {
 
         //Adapta el array
         if ((this.polynomial.length  < mon[1] +1)){
-            int[] polynomial = new int[mon[1] +1];
+            float[] polynomial = new float[mon[1] +1];
 
             for (int i = 0; i <this.polynomial.length ; i++) {
                 polynomial[i] = this.polynomial[i];
@@ -244,7 +262,7 @@ public class Polynomial {
         return sb.toString();
     }
 
-    private static String sign(int numero){
+    private static String sign(float numero){
         String s;
         if (numero < 0){
              s = " - ";
@@ -256,7 +274,7 @@ public class Polynomial {
 
     private String monomyalAbsoluteToString (int position){
         StringBuilder sb = new StringBuilder();
-        int numero = (this.polynomial[position]);
+        int numero = (int) this.polynomial[position];
 
         if (numero < 0){numero *= -1;}
 

@@ -5,8 +5,9 @@ public class generador {
     public static void main(String[] args) {
         int[] a = {1,1,1,-2};
 
-        Polynomial po = new Polynomial("2x^100000");
-        System.out.println(po.toString());
+        Polynomial po = new Polynomial("3x^2 + 2");
+        Polynomial tal = new Polynomial("x^2 + 5x -5");
+        System.out.println(po.add(tal).toString());
 
 
 
