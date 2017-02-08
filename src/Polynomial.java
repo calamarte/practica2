@@ -230,7 +230,7 @@ public class Polynomial {
 
         }
 
-
+        //Comprueba si el array en su totalidad tiene valor 0
         for (int i = 0; i < this.polynomial.length ; i++) {
 
             if (polynomial[i] != 0){
@@ -240,6 +240,7 @@ public class Polynomial {
 
         if (b)return "0";
 
+        //Estructura el String
         for (int i = this.polynomial.length -1; i >= 0 ; i--) {
 
             if(polynomial[i] == 0){
@@ -262,6 +263,7 @@ public class Polynomial {
         return sb.toString();
     }
 
+    //Define el signo en el String
     private static String sign(float numero){
         String s;
         if (numero < 0){
@@ -272,6 +274,7 @@ public class Polynomial {
         return s;
     }
 
+    //Devuelve el monomio en valor absoluto en un String
     private String monomyalAbsoluteToString (int position){
         StringBuilder sb = new StringBuilder();
         int numero = (int) this.polynomial[position];
