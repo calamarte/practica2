@@ -34,8 +34,6 @@ public class Polynomial {
 
     // Constructor a partir d'un string
     public Polynomial(String s) {
-        int[] polynomial = new int[1000];
-        this.polynomial = polynomial;
         StringBuilder sb = new StringBuilder();
 
         s = s.replaceAll(" ", "");
@@ -57,12 +55,13 @@ public class Polynomial {
             if (this.polynomial[i] != 0) {
                 int[] poly = new int[i + 1];
 
-                for (int j = 0; j < poly.length ; j++) {
+                for (int j = 0; j < poly.length; j++) {
                     poly[j] = this.polynomial[j];
                 }
                 this.polynomial = poly;
                 break;
             }
+
         }
 
     }
@@ -133,6 +132,18 @@ public class Polynomial {
             mon[1] = 0;
         }
 
+        //Adapta el array
+        if ((this.polynomial.length  < mon[1] +1)){
+            int[] polynomial = new int[mon[1] +1];
+
+            for (int i = 0; i <this.polynomial.length ; i++) {
+                polynomial[i] = this.polynomial[i];
+            }
+
+            this.polynomial = polynomial;
+        }
+
+
         //La información del monomyal se pasa al array principal donde estará el polinomio completo
         //Si es necesario se suman los polinomios para que no se pisen
         if (this.polynomial[mon[1]] != 0){
@@ -200,6 +211,7 @@ public class Polynomial {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         boolean b = true;
+
 
         for (int i = 0; i < this.polynomial.length ; i++) {
 
