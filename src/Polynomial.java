@@ -150,14 +150,7 @@ public class Polynomial {
 
         //La información del monomyal se pasa al array principal donde estará el polinomio completo
         //Si es necesario se suman los polinomios para que no se pisen
-        if (this.polynomial[mon[1]] != 0){
-            this.polynomial[mon[1]] += mon[0];
-
-        }else{
-            this.polynomial[mon[1]] = mon[0];
-
-        }
-
+        this.polynomial[mon[1]] += mon[0];
     }
 
     //Extrae la información de unos monomios concretos
@@ -170,11 +163,8 @@ public class Polynomial {
             if (m.charAt(i) == 'x'){
 
                 //-x^,x^,+x^
-                if ((i == 0) || (m.charAt(i-1) == '+') || (m.charAt(i-1) == '-')){
+                if ((i == 0) || (m.charAt(i-1) == '+') || (m.charAt(i-1) == '-')) {
                     sb.append("1");
-
-                }else{
-
                 }
 
             }else{
@@ -190,7 +180,6 @@ public class Polynomial {
             sb.append(m.charAt(i));
 
             if ((i != m.length()-1) && (m.charAt(i+1) == ' ')){
-                sb.toString();
                 mon[0] = Integer.parseInt(sb.toString());
                 sb.setLength(0);
 
@@ -295,7 +284,6 @@ public class Polynomial {
                 }
                 default: {
                     sb.append("x^" + position);
-                    break;
                 }
             }
         }
@@ -312,7 +300,6 @@ public class Polynomial {
                 }
                 default: {
                     sb.append(numero + "x^" + position);
-                    break;
                 }
             }
         }
