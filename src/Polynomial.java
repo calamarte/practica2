@@ -40,20 +40,6 @@ public class Polynomial {
             }
         }
 
-        //Crea un array ajustado a la información que se contiene
-        for (int i = this.polynomial.length-1; i >= 0 ; i--) {
-            if (this.polynomial[i] != 0) {
-                float[] poly = new float[i + 1];
-
-                for (int j = 0; j < poly.length; j++) {
-                    poly[j] = this.polynomial[j];
-                }
-                this.polynomial = poly;
-                break;
-            }
-
-        }
-
     }
 
 
@@ -229,6 +215,20 @@ public class Polynomial {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         boolean b = true;
+
+        //Crea un array ajustado a la información que se contiene
+        for (int i = this.polynomial.length-1; i >= 0 ; i--) {
+            if (this.polynomial[i] != 0) {
+                float[] poly = new float[i + 1];
+
+                for (int j = 0; j < poly.length; j++) {
+                    poly[j] = this.polynomial[j];
+                }
+                this.polynomial = poly;
+                break;
+            }
+
+        }
 
 
         for (int i = 0; i < this.polynomial.length ; i++) {
