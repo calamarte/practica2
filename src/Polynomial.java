@@ -40,6 +40,8 @@ public class Polynomial {
             }
         }
 
+        this.polynomial = ArraysCut(this.polynomial);
+
     }
 
 
@@ -80,6 +82,8 @@ public class Polynomial {
 
     // Multiplica el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial mult(Polynomial p2) {
+
+
         return null;
     }
 
@@ -136,7 +140,7 @@ public class Polynomial {
             mon[1] = 0;
         }
 
-        //Adapta el array
+        //Adapta el array                               //podría función
         if ((this.polynomial.length  < mon[1] +1)){
             float[] polynomial = new float[mon[1] +1];
 
@@ -199,25 +203,35 @@ public class Polynomial {
         return polynomial.toString().equals(this.toString());
     }
 
+    //Crea un array ajustado a la información que se contiene
+    private float[] ArraysCut(float[] polynomial){
+        float[] p = polynomial;
+
+        for (int i = p.length-1; i >= 0 ; i--) {
+            if (p[i] != 0) {
+                float[] poly = new float[i + 1];
+
+                for (int j = 0; j < poly.length; j++) {
+                    poly[j] = p[j];
+                }
+                p = poly;
+                break;
+            }
+
+        }
+
+        return p;
+
+    }
+
     // Torna la representació en forma de String del polinomi. Override d'un mètode de la classe Object
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         boolean b = true;
 
-        //Crea un array ajustado a la información que se contiene
-        for (int i = this.polynomial.length-1; i >= 0 ; i--) {
-            if (this.polynomial[i] != 0) {
-                float[] poly = new float[i + 1];
+        this.polynomial = ArraysCut(this.polynomial);
 
-                for (int j = 0; j < poly.length; j++) {
-                    poly[j] = this.polynomial[j];
-                }
-                this.polynomial = poly;
-                break;
-            }
-
-        }
 
         //Comprueba si el array en su totalidad tiene valor 0
         for (int i = 0; i < this.polynomial.length ; i++) {
