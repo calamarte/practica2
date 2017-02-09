@@ -141,20 +141,29 @@ public class Polynomial {
         }
 
         //Adapta el array                               //podría función
-        if ((this.polynomial.length  < mon[1] +1)){
-            float[] polynomial = new float[mon[1] +1];
+        this.polynomial = ArraysAdaptative(this.polynomial,mon);
 
-            for (int i = 0; i <this.polynomial.length ; i++) {
-                polynomial[i] = this.polynomial[i];
-            }
-
-            this.polynomial = polynomial;
-        }
 
 
         //La información del monomyal se pasa al array principal donde estará el polinomio completo
         //Si es necesario se suman los polinomios para que no se pisen
         this.polynomial[mon[1]] += mon[0];
+    }
+
+    private float[] ArraysAdaptative(float[] polynomial,int[] monomyal){
+        float[] p = polynomial;
+
+        if ((p.length  < monomyal[1] +1)){
+            float[] poly = new float[monomyal[1] +1];
+
+            for (int i = 0; i <p.length ; i++) {
+                poly[i] = p[i];
+            }
+
+            p = poly;
+        }
+
+        return p;
     }
 
     //Extrae la información de unos monomios concretos
