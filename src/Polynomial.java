@@ -82,9 +82,34 @@ public class Polynomial {
 
     // Multiplica el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial mult(Polynomial p2) {
+        float[] p1 = this.polynomial;
+        float[] p3 = p2.polynomial;
+        float[] result = {0};
 
+        if (p1.length > p3.length){
+            p3 = equalsLength(p1,p3);
+        }else{
+            p1 = equalsLength(p3,p1);
+        }
 
-        return null;
+        for (int i = 0; i < p1.length ; i++) {
+            for (int j = 0; j < p3.length ; j++) {
+                int[] mon = new int[2];
+                mon[0] = (int) (p1[i] * p3[j]);
+                mon[1] = j + i;
+                result = ArraysAdaptative(result,mon);
+                result[mon[1]] += mon[0];
+            }
+        }
+        float[] revers = new float[result.length];
+
+        for (int i = 0,x = revers.length-1; i < revers.length ; i++,x--) {
+            revers[x] = result[i];
+        }
+
+        Polynomial poly = new Polynomial(revers);
+
+        return poly;
     }
 
     // Divideix el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
