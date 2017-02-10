@@ -115,6 +115,15 @@ public class Polynomial {
     // Divideix el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     // Torna el quocient i també el residu (ambdós polinomis)
     public Polynomial[] div(Polynomial p2) {
+        float[] dividendo = this.polynomial;
+        float[] divisor = p2.polynomial;
+        float[] cociente = {0};
+        float[] resultado = new float[dividendo.length];
+        float[] mon = new float[2];
+        //No se como talearlo :(
+
+
+
        return null;
     }
 
