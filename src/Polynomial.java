@@ -125,9 +125,8 @@ public class Polynomial {
         float[] divisor = p2.polynomial;
         float[] cociente = {0};
         Polynomial Rest = new Polynomial();
-        int aux = dividendo.length-1;
 
-        for (int i = aux; i >= 0 ; i--) {
+        for (int i = dividendo.length-1; i >= 0 ; i--) {
 
             float[] resto;
 
@@ -135,10 +134,8 @@ public class Polynomial {
             int[] mondivisor = {(int) divisor[divisor.length-1],divisor.length-1};
             int[] moncociente = mondiv(mondividendo,mondivisor);
 
-            if (i == aux) {
-                cociente = ArraysAdaptative(cociente, moncociente);
-            }
 
+            cociente = ArraysAdaptative(cociente, moncociente);
             cociente[moncociente[1]] = moncociente[0];
             resto = restoCreator(divisor,moncociente);
 
