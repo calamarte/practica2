@@ -101,15 +101,21 @@ public class Polynomial {
                 result[mon[1]] += mon[0];
             }
         }
-        float[] revers = new float[result.length];
 
-        for (int i = 0,x = revers.length-1; i < revers.length ; i++,x--) {
-            revers[x] = result[i];
-        }
 
-        Polynomial poly = new Polynomial(revers);
+        Polynomial poly = new Polynomial(ArraysRevers(result));
 
         return poly;
+    }
+
+    private float[] ArraysRevers(float[] polynomial){
+        float[] revers = new float[polynomial.length];
+
+        for (int i = 0,x = revers.length-1; i < revers.length ; i++,x--) {
+            revers[x] = polynomial[i];
+        }
+
+        return revers;
     }
 
     // Divideix el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
@@ -118,14 +124,71 @@ public class Polynomial {
         float[] dividendo = this.polynomial;
         float[] divisor = p2.polynomial;
         float[] cociente = {0};
-        float[] resultado = new float[dividendo.length];
-        float[] mon = new float[2];
-        //No se como talearlo :(
+        Polynomial Rest = new Polynomial();
+        int aux = dividendo.length-1;
 
+        for (int i = aux; i >= 0 ; i--) {
 
+            float[] resto;
 
-       return null;
+            int[] mondividendo = {(int)dividendo[i],i};
+            int[] mondivisor = {(int) divisor[divisor.length-1],divisor.length-1};
+            int[] moncociente = mondiv(mondividendo,mondivisor);
+
+            if (i == aux) {
+                cociente = ArraysAdaptative(cociente, moncociente);
+            }
+
+            cociente[moncociente[1]] = moncociente[0];
+            resto = restoCreator(divisor,moncociente);
+
+            Polynomial Dividendo = new Polynomial(ArraysRevers(dividendo));
+            Polynomial Resto = new Polynomial(ArraysRevers(resto));
+
+            dividendo = Dividendo.add(Resto).polynomial;
+
+            if (dividendo.length < divisor.length){//antes de que se reinice el resto
+                Rest = Resto;
+                break;
+            }
+
+        }
+        Polynomial Cociente = new Polynomial(ArraysRevers(cociente));
+        Polynomial[] res =  {Cociente,Rest};
+
+       return res;
     }
+
+
+
+    private float[] restoCreator(float[] divisor, int[] moncociente){
+        float[] resto = {0};
+
+        for (int i = 0; i < divisor.length ; i++) {
+            int[] aux = new int[2];
+
+            aux[0] = ((int) divisor[i] * moncociente[0]) * (-1);
+            aux[1] = i + moncociente[1];
+            resto = ArraysAdaptative(resto,aux);
+            resto[aux[1]] = aux[0];
+
+        }
+
+        return resto;
+
+    }
+
+
+    private int[] mondiv(int[] mondividendo,int[] mondivisor){
+        int[] cociente = new int[2];
+
+        cociente[0] = mondividendo[0] / mondivisor[0];
+        cociente[1] = mondividendo[1] - mondivisor[1];
+
+         return cociente;
+    }
+
+
 
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
