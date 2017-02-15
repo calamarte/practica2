@@ -124,10 +124,14 @@ public class Polynomial {
         float[] dividendo = this.polynomial;
         float[] divisor = p2.polynomial;
         float[] cociente = {0};
+        float expodivisor = exponenteMax(divisor);
+        float expodividendo;
 
         for (int i = dividendo.length-1; i > 0 ; i--) {
 
-            if (dividendo.length < divisor.length){//antes de que se reinice el resto
+            expodividendo = exponenteMax(dividendo);
+
+            if (expodividendo < expodivisor){//antes de que se reinice el resto
                 break;
             }
 
@@ -145,7 +149,7 @@ public class Polynomial {
             Polynomial Dividendo = new Polynomial(ArraysRevers(dividendo));
             Polynomial Resto = new Polynomial(ArraysRevers(resto));
 
-            dividendo = ArraysCut(Dividendo.add(Resto).polynomial);
+            dividendo = Dividendo.add(Resto).polynomial;
 
 
         }
@@ -157,6 +161,19 @@ public class Polynomial {
     }
 
 
+    private float exponenteMax(float[] polynomial){
+
+        float exponente = 0;
+
+        for (int i = polynomial.length-1; i >= 0; i--) {
+            if (polynomial[i] != 0){
+                exponente = i;
+                break;
+            }
+        }
+
+        return exponente;
+    }
 
     private float[] restoCreator(float[] divisor, int[] moncociente){
         float[] resto = {0};
