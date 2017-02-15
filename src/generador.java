@@ -3,11 +3,11 @@
  */
 public class generador {
     public static void main(String[] args) {
-        int[] a = {1,1,1,-2};
 
         Polynomial po = new Polynomial("2x^2 + 2x");
         Polynomial tal = new Polynomial("2x");
-        System.out.println(po.add(tal).toString());
+        System.out.println(po.div(tal)[0].toString());
+        System.out.println(po.div(tal)[1].toString());
 
 
 

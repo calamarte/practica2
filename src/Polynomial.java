@@ -124,9 +124,12 @@ public class Polynomial {
         float[] dividendo = this.polynomial;
         float[] divisor = p2.polynomial;
         float[] cociente = {0};
-        Polynomial Rest = new Polynomial();
 
-        for (int i = dividendo.length-1; i >= 0 ; i--) {
+        for (int i = dividendo.length-1; i > 0 ; i--) {
+
+            if (dividendo.length < divisor.length){//antes de que se reinice el resto
+                break;
+            }
 
             float[] resto;
 
@@ -142,16 +145,13 @@ public class Polynomial {
             Polynomial Dividendo = new Polynomial(ArraysRevers(dividendo));
             Polynomial Resto = new Polynomial(ArraysRevers(resto));
 
-            dividendo = Dividendo.add(Resto).polynomial;
+            dividendo = ArraysCut(Dividendo.add(Resto).polynomial);
 
-            if (dividendo.length < divisor.length){//antes de que se reinice el resto
-                Rest = Resto;
-                break;
-            }
 
         }
+        Polynomial Resto = new Polynomial(ArraysRevers(dividendo));
         Polynomial Cociente = new Polynomial(ArraysRevers(cociente));
-        Polynomial[] res =  {Cociente,Rest};
+        Polynomial[] res =  {Cociente,Resto};
 
        return res;
     }
@@ -309,6 +309,7 @@ public class Polynomial {
     //Crea un array ajustado a la información que se contiene
     private float[] ArraysCut(float[] polynomial){
         float[] p = polynomial;
+
 
         for (int i = p.length-1; i >= 0 ; i--) {
             if (p[i] != 0) {
