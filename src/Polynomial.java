@@ -205,15 +205,16 @@ public class Polynomial {
 
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
-        float[] polynomial = {0};
+        float[] polynomial = this.polynomial;
+        float[] raices = {0};
 
-        if (this.polynomial.length == 2){
-            polynomial[0] = this.polynomial[0] * (-1);
-            return polynomial;
+        if (polynomial.length == 2){
+            raices[0] = polynomial[0] * (-1);
+            return raices;
         }
 
-        if (this.polynomial.length == 3){
-
+        if (polynomial.length == 3){
+            return cuadrada(polynomial);
         }
 
 
@@ -221,6 +222,27 @@ public class Polynomial {
 
         return null;
     }
+
+    private float[] cuadrada(float[] polynomial){
+
+        //Poner barreras contra la raiz negativa
+        float raizCuadrada = polynomial[1] * polynomial[1] - 4 * polynomial[2] * polynomial[0];
+
+        if (raizCuadrada < 0)return null;
+
+        raizCuadrada = (float) Math.sqrt(raizCuadrada);
+
+        float[] raices = new float[2];
+
+        raices[0] = ((-1) * polynomial[1] + raizCuadrada) / (polynomial[2] * 2);
+        raices[1] = ((-1) * polynomial[1] - raizCuadrada) / (polynomial[2] * 2);
+
+
+        Arrays.sort(raices);
+
+        return raices;
+    }
+
 
     //Clasifica los monomios
     private void monomyal(String m){
