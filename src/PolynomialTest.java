@@ -149,9 +149,9 @@ public class PolynomialTest {
     @Test
     public void roots() {
         Polynomial p;
-//
-        p = new Polynomial("x^2 - 4");
-        assertEqualsFloats(new float[]{-2, 2}, p.roots());
+
+//        p = new Polynomial("x^2 - 4");
+//        assertEqualsFloats(new float[]{-2, 2}, p.roots());
 //
 //        p = new Polynomial("2x^2 + 4x - 30");
 //        assertEqualsFloats(new float[]{-5, 3}, p.roots());
@@ -174,9 +174,9 @@ public class PolynomialTest {
 //        // Biquadràtica
 //        p = new Polynomial("x^4 - 10x^2 + 25");
 //        assertEqualsFloats(new float[]{(float) -2.236, (float) 2.236}, p.roots());
-//
-//        p = new Polynomial("x^4 - 100");
-//        assertEqualsFloats(new float[]{-3.1622f, 3.1622f}, p.roots());
+
+        p = new Polynomial("x^4 - 100");
+        assertEqualsFloats(new float[]{-3.1622f, 3.1622f}, p.roots());
 //
 //        p = new Polynomial("x^3 + 100");
 //        assertEqualsFloats(new float[]{(float) -4.6415}, p.roots());

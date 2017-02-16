@@ -208,16 +208,52 @@ public class Polynomial {
         float[] polynomial = this.polynomial;
         float[] raices = {0};
 
-        if (polynomial.length == 2){
+        //Ecuaciones de primer grado
+        if (polynomial.length == 2) {
             raices[0] = polynomial[0] * (-1);
             return raices;
         }
 
-        if (polynomial.length == 3){
+        //Ecuaciones de segundo grado
+        if (polynomial.length == 3) {
             return cuadrada(polynomial);
         }
 
+        //Ecuaciones bicuadradas
+        if (polynomial.length == 5 && polynomial[3] == 0 && polynomial[1] == 0 ) {
+            float[] bicuadrada = {polynomial[0], polynomial[2], polynomial[4]};
 
+            bicuadrada = cuadrada(bicuadrada);
+
+
+            if (bicuadrada.length == 1) {
+                if (bicuadrada[0] < 0) {
+                    return null;
+
+                } else {
+
+                    float[] dos = new float[2];
+
+                    dos[0] = (float) Math.sqrt(bicuadrada[0]);
+                    dos[1] = -1 * (float) Math.sqrt(bicuadrada[0]);
+                    Arrays.sort(dos);
+                    return dos;
+                }
+            }
+
+            float[] cuatro = new float[4];
+
+            for (int i = 0, j = 0; i < bicuadrada.length; i++, j += 2) {
+
+                cuatro[j] = (float) Math.sqrt(bicuadrada[i]);
+                cuatro[j + 1] = -1 * (float) Math.sqrt(bicuadrada[i]);
+
+            }
+            Arrays.sort(cuatro);
+            return cuatro;
+        }else{
+
+        }
 
 
         return null;
@@ -236,6 +272,11 @@ public class Polynomial {
 
         raices[0] = ((-1) * polynomial[1] + raizCuadrada) / (polynomial[2] * 2);
         raices[1] = ((-1) * polynomial[1] - raizCuadrada) / (polynomial[2] * 2);
+
+        if (raices[0] == raices[1]) {
+            float[] igual = {raices[0]};
+            return igual;
+        }
 
 
         Arrays.sort(raices);
