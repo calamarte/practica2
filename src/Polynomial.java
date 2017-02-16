@@ -127,7 +127,7 @@ public class Polynomial {
         float expodivisor = exponenteMax(divisor);
         float expodividendo;
 
-        for (int i = dividendo.length-1; i > 0 ; i--) {
+        for (int i = dividendo.length-1; i >= 0 ; i--) {
 
             expodividendo = exponenteMax(dividendo);
 
@@ -192,7 +192,6 @@ public class Polynomial {
 
     }
 
-
     private int[] mondiv(int[] mondividendo,int[] mondivisor){
         int[] cociente = new int[2];
 
@@ -206,6 +205,20 @@ public class Polynomial {
 
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
+        float[] polynomial = {0};
+
+        if (this.polynomial.length == 2){
+            polynomial[0] = this.polynomial[0] * (-1);
+            return polynomial;
+        }
+
+        if (this.polynomial.length == 3){
+
+        }
+
+
+
+
         return null;
     }
 
