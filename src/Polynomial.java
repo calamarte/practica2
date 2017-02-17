@@ -202,14 +202,13 @@ public class Polynomial {
     }
 
 
-
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
         float[] polynomial = this.polynomial;
         float[] raices = {0};
 
         //Ecuaciones de primer grado
-        if (polynomial.length == 2) {
+        if (polynomial.length == 2) { //solucionar esto
             raices[0] = polynomial[0] * (-1);
             return raices;
         }
@@ -239,12 +238,33 @@ public class Polynomial {
 
     private float[] ruffini(float[] polynomial){
         float[] divisores = divisores(polynomial[0]);
+        float pivote;
+        float aux = 0;
+        float[] raices = {0};
+        int tamañoraices = 0;
 
-        while (true){
-            break;
+        for (int i = 0; i < divisores.length ; i++) {
+            float[] resultado = new float[polynomial.length];
+            pivote = divisores[i];
+            for (int j = polynomial.length-1; j >= 0; j--) {
+                resultado[j] = polynomial[j] + aux;
+                aux = pivote * resultado[j];
+            }
+
+            if (resultado[0] == 0){
+                int[] raiz = { (int) pivote,tamañoraices};
+                raices = ArraysAdaptative(raices,raiz);
+                raices[raiz[1]] = raiz[0];
+                polynomial = resultado;
+                tamañoraices++;
+            }
+
+            aux = 0;
         }
 
-        return null;
+        Arrays.sort(raices);
+
+        return raices;
     }
 
     //Busca los divisores de un número
@@ -321,7 +341,6 @@ public class Polynomial {
         Arrays.sort(cuatro);
         return cuatro;
     }
-
 
 
     private float[] cuadrada(float[] polynomial){
