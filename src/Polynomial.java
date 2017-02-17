@@ -214,13 +214,13 @@ public class Polynomial {
         }
 
         if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2){
-            if (polynomial.length -1 % 2 == 0){
+            if ((polynomial.length -1) % 2 == 0){
                 if (polynomial[0] > 0){//tal
                     return null;
                 }else{
                     float[] dos = new float[2];
-                    dos[0] = (float) (-1 * (Math.pow(polynomial[0], (1.0/(polynomial.length-1)))));
-                    dos[1] = (float) (Math.pow(polynomial[0], (1.0/(polynomial.length-1))));
+                    dos[0] = (float) (-1 * (Math.pow(polynomial[0] * -1, (1.0/(polynomial.length-1)))));
+                    dos[1] = (float) (Math.pow(polynomial[0] * -1, (1.0/(polynomial.length-1))));
                     Arrays.sort(dos);
                     return dos;
                 }
@@ -230,13 +230,6 @@ public class Polynomial {
             }
         }
 
-
-
-        //Ecuaciones de primer grado
-//        if (polynomial.length == 2) { //solucionar esto
-//            raices[0] = polynomial[0] * (-1);
-//            return raices;
-//        }
 
         //Ecuaciones de segundo grado
         if (polynomial.length == 3) {
