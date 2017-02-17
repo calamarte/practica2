@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -8,15 +9,7 @@ import java.util.Scanner;
 public class generador {
     public static void main(String[] args) {
 
-        Scanner s = new Scanner(System.in);
-
-        System.out.println ("Introduzca un Numero: ");
-        int n = s.nextInt();
-
-        for (int i = 1 ; i <= n ; i++) {
-            if (n % i == 0) {
-                System.out.println(i);
-            }
-        }
+        Polynomial tal = new Polynomial("-x^13 - 150");
+        System.out.println(Arrays.toString(tal.roots()));
     }
 }

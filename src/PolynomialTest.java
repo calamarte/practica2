@@ -150,7 +150,7 @@ public class PolynomialTest {
     public void roots() {
         Polynomial p;
 
-        p = new Polynomial("x^2 - 4");
+        p = new Polynomial("-x^2 + 4");
         assertEqualsFloats(new float[]{-2, 2}, p.roots());
 
         p = new Polynomial("2x^2 + 4x - 30");

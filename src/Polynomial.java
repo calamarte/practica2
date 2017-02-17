@@ -208,6 +208,12 @@ public class Polynomial {
         float[] raices = {0};
         int ceros = 0;
 
+        if (polynomial[polynomial.length-1] < 0){
+            for (int i = 0; i < polynomial.length ; i++) {
+                polynomial[i] *= -1;
+            }
+        }
+
         //Cuenta los ceros que hay dentro de un Array
         for (int i = 0; i < polynomial.length; i++) {
             if (polynomial[i] == 0 ) ceros++;
@@ -312,7 +318,6 @@ public class Polynomial {
             }
             alldivisores[i] = divisorespos[x];
         }
-        System.out.println(Arrays.toString(alldivisores));
         return alldivisores;
     }
 
