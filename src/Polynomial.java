@@ -216,6 +216,7 @@ public class Polynomial {
 
         //Ecuaciones de segundo grado
         if (polynomial.length == 3) {
+
             return cuadrada(polynomial);
         }
 
@@ -224,44 +225,62 @@ public class Polynomial {
             float[] bicuadrada = {polynomial[0], polynomial[2], polynomial[4]};
 
             bicuadrada = cuadrada(bicuadrada);
-
-
-            if (bicuadrada.length == 1) {
-                if (bicuadrada[0] < 0) {
-                    return null;
-
-                } else {
-
-                    float[] dos = new float[2];
-
-                    dos[0] = (float) Math.sqrt(bicuadrada[0]);
-                    dos[1] = -1 * (float) Math.sqrt(bicuadrada[0]);
-                    Arrays.sort(dos);
-                    return dos;
-                }
-            }
-
-            float[] cuatro = new float[4];
-
-            for (int i = 0, j = 0; i < bicuadrada.length; i++, j += 2) {
-
-                cuatro[j] = (float) Math.sqrt(bicuadrada[i]);
-                cuatro[j + 1] = -1 * (float) Math.sqrt(bicuadrada[i]);
-
-            }
-            Arrays.sort(cuatro);
-            return cuatro;
-        }else{
+            return bicuadrada(bicuadrada);
 
         }
-
 
         return null;
     }
 
+    private float[] bicuadrada(float[] raices){
+
+        if (raices.length == 1) {
+            if (raices[0] < 0) {
+                return null;
+
+            } else {
+
+                float[] dos = new float[2];
+
+                dos[0] = (float) Math.sqrt(raices[0]);
+                dos[1] = -1 * (float) Math.sqrt(raices[0]);
+                Arrays.sort(dos);
+                return dos;
+            }
+        }
+        boolean negative = false;
+        for (int i = 0; i < 2 ; i++) {
+            if (raices[i] < 0)negative = true;
+        }
+
+        if (negative){
+            float[] dos = new float[2];
+
+            dos[0] = (float) Math.sqrt(raices[1]);
+            dos[1] = -1 * (float) Math.sqrt(raices[1]);
+            Arrays.sort(dos);
+            return dos;
+
+        }
+
+        float[] cuatro = new float[4];
+
+        for (int i = 0, j = 0; i < raices.length; i++, j += 2) {
+
+            cuatro[j] = (float) Math.sqrt(raices[i]);
+            cuatro[j + 1] = -1 * (float) Math.sqrt(raices[i]);
+
+        }
+        Arrays.sort(cuatro);
+        return cuatro;
+    }
+
+
+
     private float[] cuadrada(float[] polynomial){
 
         //Poner barreras contra la raiz negativa
+
         float raizCuadrada = polynomial[1] * polynomial[1] - 4 * polynomial[2] * polynomial[0];
 
         if (raizCuadrada < 0)return null;
@@ -277,7 +296,6 @@ public class Polynomial {
             float[] igual = {raices[0]};
             return igual;
         }
-
 
         Arrays.sort(raices);
 
