@@ -206,12 +206,37 @@ public class Polynomial {
     public float[] roots() {
         float[] polynomial = this.polynomial;
         float[] raices = {0};
+        int ceros = 0;
+
+        //Cuenta los ceros que hay dentro de un Array
+        for (int i = 0; i < polynomial.length; i++) {
+            if (polynomial[i] == 0 ) ceros++;
+        }
+
+        if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2){
+            if (polynomial.length -1 % 2 == 0){
+                if (polynomial[0] > 0){//tal
+                    return null;
+                }else{
+                    float[] dos = new float[2];
+                    dos[0] = (float) (-1 * (Math.pow(polynomial[0], (1.0/(polynomial.length-1)))));
+                    dos[1] = (float) (Math.pow(polynomial[0], (1.0/(polynomial.length-1))));
+                    Arrays.sort(dos);
+                    return dos;
+                }
+            }else {
+               raices[0] = (float) (-1 * (Math.pow(polynomial[0], (1.0/(polynomial.length-1)))));
+               return raices;
+            }
+        }
+
+
 
         //Ecuaciones de primer grado
-        if (polynomial.length == 2) { //solucionar esto
-            raices[0] = polynomial[0] * (-1);
-            return raices;
-        }
+//        if (polynomial.length == 2) { //solucionar esto
+//            raices[0] = polynomial[0] * (-1);
+//            return raices;
+//        }
 
         //Ecuaciones de segundo grado
         if (polynomial.length == 3) {
