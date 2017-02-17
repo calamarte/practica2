@@ -229,9 +229,56 @@ public class Polynomial {
 
         }
 
+        //Por ruffini
+        if (polynomial.length >= 4){
+            return ruffini(polynomial);
+        }
+
         return null;
     }
 
+    private float[] ruffini(float[] polynomial){
+        float[] divisores = divisores(polynomial[0]);
+
+        while (true){
+            break;
+        }
+
+        return null;
+    }
+
+    //Busca los divisores de un número
+    private float[] divisores(float independiente){
+        float[] divisorespos = {0};
+        int[] aux = new int[2];
+
+        for (int i = 1, x = 0; i <= independiente ; i++) {
+            if (independiente % i == 0) {
+                aux[0] =  i;
+                aux[1] = x;
+                divisorespos = ArraysAdaptative(divisorespos,aux);
+                divisorespos[aux[1]] = aux[0];
+                x++;
+            }
+        }
+
+        float[] alldivisores = new float[divisorespos.length * 2];
+
+        for (int i = 0,x = 0; i < alldivisores.length ; i++,x++) {
+            if (i > divisorespos.length -1){
+                if (x > divisorespos.length-1){
+                    x = 0;
+                }
+                alldivisores[i] = divisorespos[x] * -1;
+                continue;
+            }
+            alldivisores[i] = divisorespos[x];
+        }
+        System.out.println(Arrays.toString(alldivisores));
+        return alldivisores;
+    }
+
+    //Realiza las ecuciones bicuadradas
     private float[] bicuadrada(float[] raices){
 
         if (raices.length == 1) {

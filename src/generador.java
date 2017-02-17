@@ -1,16 +1,22 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
 /**
  * Created by calamarte on 01/02/2017.
  */
 public class generador {
     public static void main(String[] args) {
 
-        Polynomial po = new Polynomial("2x^-1500 - 4x^3 + 2x");
-        Polynomial tal = new Polynomial("x + 2");
+        Scanner s = new Scanner(System.in);
 
-        System.out.println(po.div(tal)[0].toString());
-        System.out.println(po.div(tal)[1].toString());
+        System.out.println ("Introduzca un Numero: ");
+        int n = s.nextInt();
 
-
-
+        for (int i = 1 ; i <= n ; i++) {
+            if (n % i == 0) {
+                System.out.println(i);
+            }
+        }
     }
 }
