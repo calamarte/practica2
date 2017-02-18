@@ -28,11 +28,11 @@ public class Polynomial {
 
         s = s.replaceAll(" ", "");
 
-        // Separa el polinomio en monomios y se envian a monomyal
+        // Separa el polinomio en monomios y se envian a monomial
         for (int i = 0; i < s.length(); i++) {
             if((i == s.length()-1) || (s.charAt(i+1) == '+') || (s.charAt(i+1) == '-')){
                 sb.append(s.charAt(i));
-                monomyal(sb.toString());
+                monomial(sb.toString());
                 sb.setLength(0);
 
             }else{
@@ -57,18 +57,18 @@ public class Polynomial {
              p1 = equalsLength(p2,p1);
          }
 
-         float[] result = new float[p1.length];
+        //suma
+        for (int i = 0; i < p1.length; i++) {
 
-        for (int i = 0, x = result.length-1; i < result.length; i++,x--) {
-
-            result[x] = p1[i] + p2[i];
+            p1[i] += p2[i];
         }
 
-        Polynomial poly = new Polynomial(result);
+        Polynomial poly = new Polynomial(ArraysRevers(p1));
 
         return  poly;
     }
 
+    //Cambia la longitud de un array tomando como referencia otro array
     private  float[] equalsLength(float[] mayor,float[] menor){
 
         float[] result = new float[mayor.length];
@@ -160,7 +160,7 @@ public class Polynomial {
        return res;
     }
 
-
+    //Comprueba cual es el exponete mayor con valor distinto de 0
     private float exponenteMax(float[] polynomial){
 
         float exponente = 0;
@@ -221,17 +221,18 @@ public class Polynomial {
 
         if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2){
             if ((polynomial.length -1) % 2 == 0){
-                if (polynomial[0] > 0){//tal
+                if (polynomial[0] > 0){//raiz negativa
                     return null;
                 }else{
                     float[] dos = new float[2];
-                    dos[0] = (float) (-1 * (Math.pow(polynomial[0] * -1, (1.0/(polynomial.length-1)))));
-                    dos[1] = (float) (Math.pow(polynomial[0] * -1, (1.0/(polynomial.length-1))));
+                    dos[0] = (float) (-1 * (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1)))));
+                    dos[1] = (float) (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1))));
                     Arrays.sort(dos);
                     return dos;
                 }
             }else {
-               raices[0] = (float) (-1 * (Math.pow(polynomial[0], (1.0/(polynomial.length-1)))));
+               //if (polynomial[0] < 0) polynomial[0] *= -1;//No lo entiendo
+               raices[0] = (float) (-1 * (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1)))));
                return raices;
             }
         }
@@ -292,7 +293,7 @@ public class Polynomial {
     }
 
     //Busca los divisores de un número
-    private float[] divisores(float independiente){
+    private float[] divisores(float independiente) {
         float[] divisorespos = {0};
         int[] aux = new int[2];
 
@@ -393,7 +394,7 @@ public class Polynomial {
 
 
     //Clasifica los monomios
-    private void monomyal(String m){
+    private void monomial(String m){
         int[] mon = new int[2];
         StringBuilder sb = new StringBuilder();
 
@@ -434,16 +435,17 @@ public class Polynomial {
             mon[1] = 0;
         }
 
-        //Adapta el array                               //podría función
+        //Adapta el array
         this.polynomial = ArraysAdaptative(this.polynomial,mon);
 
 
 
-        //La información del monomyal se pasa al array principal donde estará el polinomio completo
+        //La información del monomial se pasa al array principal donde estará el polinomio completo
         //Si es necesario se suman los polinomios para que no se pisen
         this.polynomial[mon[1]] += mon[0];
     }
 
+    //Adapta el array según las necesidades del monomio
     private float[] ArraysAdaptative(float[] polynomial,int[] monomyal){
         float[] p = polynomial;
 
@@ -509,7 +511,21 @@ public class Polynomial {
     //Crea un array ajustado a la información que se contiene
     private float[] ArraysCut(float[] polynomial){
         float[] p = polynomial;
+        boolean b = true;
 
+
+        //Comprueba si el array en su totalidad tiene valor 0
+        for (int i = 0; i < p.length ; i++) {
+
+            if (p[i] != 0){
+                b = false;
+            }
+        }
+
+        if (b){
+            float[] vacio = {0};
+            return vacio;
+        }
 
         for (int i = p.length-1; i >= 0 ; i--) {
             if (p[i] != 0) {
@@ -536,16 +552,7 @@ public class Polynomial {
 
         this.polynomial = ArraysCut(this.polynomial);
 
-
-        //Comprueba si el array en su totalidad tiene valor 0
-        for (int i = 0; i < this.polynomial.length ; i++) {
-
-            if (polynomial[i] != 0){
-                b = false;
-            }
-        }
-
-        if (b)return "0";
+        if (this.polynomial.length == 1 && this.polynomial[0] == 0) return "0";
 
         //Estructura el String
         for (int i = this.polynomial.length -1; i >= 0 ; i--) {
@@ -560,9 +567,9 @@ public class Polynomial {
             }
 
             if (i !=  this.polynomial.length-1) {
-                sb.append(sign(polynomial[i])+ monomyalAbsoluteToString(i));
+                sb.append(sign(polynomial[i])+ monomialAbsoluteToString(i));
             }else{
-                sb.append(monomyalAbsoluteToString(i));
+                sb.append(monomialAbsoluteToString(i));
             }
 
         }
@@ -582,13 +589,11 @@ public class Polynomial {
     }
 
     //Devuelve el monomio en valor absoluto en un String
-    private String monomyalAbsoluteToString (int position){
+    private String monomialAbsoluteToString(int position){
         StringBuilder sb = new StringBuilder();
         int numero = (int) this.polynomial[position];
 
-        if (numero < 0){numero *= -1;}
-
-        if (numero == 0){sb.append(0);}
+        if (numero < 0)numero *= -1;
 
         if (numero == 1){
             switch (position) {

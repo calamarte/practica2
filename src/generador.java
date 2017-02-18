@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class generador {
     public static void main(String[] args) {
 
-        Polynomial tal = new Polynomial("-x^13 - 150");
+        Polynomial tal = new Polynomial("4x^5 + 4");
         System.out.println(Arrays.toString(tal.roots()));
     }
 }
