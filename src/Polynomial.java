@@ -44,7 +44,6 @@ public class Polynomial {
 
     }
 
-
     // Suma el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial add(Polynomial p) {
 
@@ -180,6 +179,7 @@ public class Polynomial {
         return exponente;
     }
 
+    //Crea el resto
     private float[] restoCreator(float[] divisor, int[] moncociente){
         float[] resto = {0};
 
@@ -197,6 +197,7 @@ public class Polynomial {
 
     }
 
+    //divide 2 monomios
     private int[] mondiv(int[] mondividendo,int[] mondivisor){
         int[] cociente = new int[2];
 
@@ -206,13 +207,12 @@ public class Polynomial {
          return cociente;
     }
 
-
     // Troba les arrels del polinomi, ordenades de menor a major
     public float[] roots() {
         float[] polynomial = this.polynomial;
-        float[] raices = {0};
         int ceros = 0;
 
+        //Asegura que el polynomio simepre esté en positivo
         if (polynomial[polynomial.length-1] < 0){
             for (int i = 0; i < polynomial.length ; i++) {
                 polynomial[i] *= -1;
@@ -225,37 +225,31 @@ public class Polynomial {
         }
 
         //Ecuaciones simples
-        if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2){
-           return basicRoots(polynomial);
+        if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2) {
+            return basicRoots(polynomial);
         }
 
 
         //Ecuaciones de segundo grado
-        if (polynomial.length == 3) {
+        if (polynomial.length == 3) return cuadrada(polynomial);
 
-            return cuadrada(polynomial);
-        }
 
         //Ecuaciones bicuadradas
         if (polynomial.length == 5 && polynomial[3] == 0 && polynomial[1] == 0 ) {
-            float[] bicuadrada = {polynomial[0], polynomial[2], polynomial[4]};
-
-            bicuadrada = cuadrada(bicuadrada);
-            return bicuadrada(bicuadrada);
+            return bicuadrada(polynomial);
 
         }
 
         //Por ruffini
-        if (polynomial.length >= 4){
-            return ruffini(polynomial);
-        }
+        if (polynomial.length >= 4)  return ruffini(polynomial);
+
 
         return null;
     }
 
     private float[] basicRoots(float[] polynomial){
-        float[] raices = {0};
 
+        //Es par?
         if ((polynomial.length -1) % 2 == 0){
             if (polynomial[0] > 0){//raiz negativa
                 return null;
@@ -267,16 +261,19 @@ public class Polynomial {
                 return dos;
             }
         }else {
+            float[] uno = new float[1];
             if (polynomial[0] < 0) {
                 polynomial[0] *= -1;
-                raices[0] = (float) (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1))));
-                return raices;
-            }
-            raices[0] = (float) (-1 * (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1)))));
-            return raices;
+                uno[0] = (float) (Math.pow(polynomial[0] / polynomial[polynomial.length - 1], (1.0 / (polynomial.length - 1))));
+                return uno;
+            }else {
+                uno[0] = (float) (-1 * (Math.pow(polynomial[0] / polynomial[polynomial.length - 1], (1.0 / (polynomial.length - 1)))));
+            }   return uno;
         }
     }
 
+    //Realiza ecuacines mayores de segundo grado siempre que no sean
+    //bicuadradas ni simples.
     private float[] ruffini(float[] polynomial){
         float[] divisores = divisores(polynomial[0]);
         float pivote;
@@ -284,14 +281,18 @@ public class Polynomial {
         float[] raices = {0};
         int tamañoraices = 0;
 
+        //Todas las posibles raices
         for (int i = 0; i < divisores.length ; i++) {
             float[] resultado = new float[polynomial.length];
             pivote = divisores[i];
+
+            //ruffini
             for (int j = polynomial.length-1; j >= 0; j--) {
                 resultado[j] = polynomial[j] + aux;
                 aux = pivote * resultado[j];
             }
 
+            //guardar raiz
             if (resultado[0] == 0){
                 int[] raiz = { (int) pivote,tamañoraices};
                 raices = ArraysAdaptative(raices,raiz);
@@ -341,7 +342,11 @@ public class Polynomial {
     }
 
     //Realiza las ecuciones bicuadradas
-    private float[] bicuadrada(float[] raices){
+    private float[] bicuadrada(float[] polynomial) {
+        float[] bicuadrada = {polynomial[0], polynomial[2], polynomial[4]};
+        float[] raices = cuadrada(bicuadrada);
+
+        if (raices == null) return null;
 
         if (raices.length == 1) {
             if (raices[0] < 0) {
@@ -356,35 +361,34 @@ public class Polynomial {
                 Arrays.sort(dos);
                 return dos;
             }
+        } else {
+
+            if (raices[0] < 0 && raices[1] < 0)return null;
+
+            if (raices[0] < 0) {
+                float[] dos = new float[2];
+
+                dos[0] = (float) Math.sqrt(raices[1]);
+                dos[1] = -1 * (float) Math.sqrt(raices[1]);
+                Arrays.sort(dos);
+                return dos;
+
+            }
+
+            float[] cuatro = new float[4];
+
+            for (int i = 0, j = 0; i < raices.length; i++, j += 2) {
+
+                cuatro[j] = (float) Math.sqrt(raices[i]);
+                cuatro[j + 1] = -1 * (float) Math.sqrt(raices[i]);
+
+            }
+            Arrays.sort(cuatro);
+            return cuatro;
         }
-        boolean negative = false;
-        for (int i = 0; i < 2 ; i++) {
-            if (raices[i] < 0)negative = true;
-        }
-
-        if (negative){
-            float[] dos = new float[2];
-
-            dos[0] = (float) Math.sqrt(raices[1]);
-            dos[1] = -1 * (float) Math.sqrt(raices[1]);
-            Arrays.sort(dos);
-            return dos;
-
-        }
-
-        float[] cuatro = new float[4];
-
-        for (int i = 0, j = 0; i < raices.length; i++, j += 2) {
-
-            cuatro[j] = (float) Math.sqrt(raices[i]);
-            cuatro[j + 1] = -1 * (float) Math.sqrt(raices[i]);
-
-        }
-        Arrays.sort(cuatro);
-        return cuatro;
     }
 
-
+    //Realiza ecuaciones de segundo grado
     private float[] cuadrada(float[] polynomial){
 
         //Poner barreras contra la raiz negativa
@@ -409,7 +413,6 @@ public class Polynomial {
 
         return raices;
     }
-
 
     //Clasifica los monomios
     private void monomial(String m){
