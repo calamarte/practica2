@@ -82,15 +82,18 @@ public class Polynomial {
 
     // Multiplica el polinomi amb un altre. No modifica el polinomi actual (this). Genera un de nou
     public Polynomial mult(Polynomial p2) {
-        float[] p1 = this.polynomial;
-        float[] p3 = p2.polynomial;
+        float[] p1;
+        float[] p3;
         float[] result = {0};
 
-        if (p1.length > p3.length){
-            p3 = equalsLength(p1,p3);
-        }else{
-            p1 = equalsLength(p3,p1);
+        if (this.polynomial.length > p2.polynomial.length){
+            p1 = this.polynomial;
+            p3 = p2.polynomial;
+        }else {
+            p3 = this.polynomial;
+            p1 = p2.polynomial;
         }
+
 
         for (int i = 0; i < p1.length ; i++) {
             for (int j = 0; j < p3.length ; j++) {
@@ -127,11 +130,12 @@ public class Polynomial {
         float expodivisor = exponenteMax(divisor);
         float expodividendo;
 
+        //La división en si
         for (int i = dividendo.length-1; i >= 0 ; i--) {
 
             expodividendo = exponenteMax(dividendo);
 
-            if (expodividendo < expodivisor){//antes de que se reinice el resto
+            if (expodividendo < expodivisor){
                 break;
             }
 
@@ -153,6 +157,7 @@ public class Polynomial {
 
 
         }
+
         Polynomial Resto = new Polynomial(ArraysRevers(dividendo));
         Polynomial Cociente = new Polynomial(ArraysRevers(cociente));
         Polynomial[] res =  {Cociente,Resto};
@@ -219,22 +224,9 @@ public class Polynomial {
             if (polynomial[i] == 0 ) ceros++;
         }
 
+        //Ecuaciones simples
         if (polynomial[0] != 0 && ceros == polynomial.length-2 && polynomial.length-1 != 2){
-            if ((polynomial.length -1) % 2 == 0){
-                if (polynomial[0] > 0){//raiz negativa
-                    return null;
-                }else{
-                    float[] dos = new float[2];
-                    dos[0] = (float) (-1 * (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1)))));
-                    dos[1] = (float) (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1))));
-                    Arrays.sort(dos);
-                    return dos;
-                }
-            }else {
-               //if (polynomial[0] < 0) polynomial[0] *= -1;//No lo entiendo
-               raices[0] = (float) (-1 * (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1)))));
-               return raices;
-            }
+           return basicRoots(polynomial);
         }
 
 
@@ -261,6 +253,30 @@ public class Polynomial {
         return null;
     }
 
+    private float[] basicRoots(float[] polynomial){
+        float[] raices = {0};
+
+        if ((polynomial.length -1) % 2 == 0){
+            if (polynomial[0] > 0){//raiz negativa
+                return null;
+            }else{
+                float[] dos = new float[2];
+                dos[0] = (float) (-1 * (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1)))));
+                dos[1] = (float) (Math.pow(polynomial[0]/polynomial[polynomial.length-1] * -1, (1.0/(polynomial.length-1))));
+                Arrays.sort(dos);
+                return dos;
+            }
+        }else {
+            if (polynomial[0] < 0) {
+                polynomial[0] *= -1;
+                raices[0] = (float) (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1))));
+                return raices;
+            }
+            raices[0] = (float) (-1 * (Math.pow(polynomial[0]/ polynomial[polynomial.length-1], (1.0/ (polynomial.length-1)))));
+            return raices;
+        }
+    }
+
     private float[] ruffini(float[] polynomial){
         float[] divisores = divisores(polynomial[0]);
         float pivote;
@@ -283,6 +299,8 @@ public class Polynomial {
                 polynomial = resultado;
                 tamañoraices++;
             }
+
+            if (i == divisores.length -1 && raices[0] == 0)return null;
 
             aux = 0;
         }
